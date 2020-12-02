@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "start": "npm run start --prefix server",
-    "heroku-postbuild":"npm run build"
+    "heroku-postbuild": "npm run build"
   },
   "dependencies": {
     "all": "^0.0.0",
@@ -16,6 +16,7 @@
     "bulma": "^0.9.1",
     "cache-loader": "^4.1.0",
     "core-js": "^3.7.0",
+    "express": "^4.17.1",
     "firebase": "^8.1.1",
     "geoip-lite": "^1.4.2",
     "hpp": "^0.2.3",
