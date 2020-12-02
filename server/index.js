@@ -2,8 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const config = require('./config');
-const session = require('express-session')
-const passport = require('passport')
+// const session = require('express-session')
+// const passport = require('passport')
 //const mongoStore = require('connect-mongodb-session')(session)
 
 const app = express();
