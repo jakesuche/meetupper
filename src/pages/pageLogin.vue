@@ -64,7 +64,7 @@
               > 
               <i v-if="spinnerActive" class="fa fa-spinner fa-spin"></i>
               <i v-if="isError" class="fa fa-exclamation-triangle"></i>
-                Login
+                <span v-if="ishideLogin">Login</span>
               </button>
              
             </form>
@@ -91,6 +91,7 @@ export default {
       },
       spinnerActive:false,
       isError:false,
+      ishideLogin:true,
       classObj:{
         button:true,
         'is-block':true,
@@ -126,6 +127,7 @@ export default {
       this.$v.form.$touch();
       this.spinnerActive = true
      this.isError = false
+     this.ishideLogin = false
       this.classObj['is-warning'] = false
       this.$store
         .dispatch("auth/loginWithEmailAndPassword", this.form)
@@ -151,6 +153,7 @@ export default {
           if (err.response["status"] === 500) {
             this.spinnerActive =  false
             this.isError = true
+            this.ishideLogin = false
             this.classObj['is-warning'] = true
             this.spinnerActive =  false
             this.$toasted.error(
