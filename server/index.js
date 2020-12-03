@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const config = require('./config');
+const config = require('./config/prod');
 // const session = require('express-session')
 const passport = require('passport')
 //const mongoStore = require('connect-mongodb-session')(session)
