@@ -87,7 +87,7 @@
               <!-- Threads Ends -->
             </aside>
           </div>
-          <div class="column is-7 is-offset-1">
+          <div  v-if="user" class="column is-7 is-offset-1">
             <div class="content is-medium">
               <h3 class="title is-3">About the Meetup</h3>
               <!-- TODO: meetup description -->
@@ -99,7 +99,7 @@
                       class="button is-warning">You need authenticate in order to join</button> -->
             </div>
             <!-- Thread List START -->
-            <div class="content is-medium">
+            <div  class="content is-medium">
               <h3 class="title is-3">Threads</h3>
               <div v-for="thread in threads" :key="thread._id" class="box">
                 <!-- Thread title -->
@@ -140,6 +140,9 @@
             </div>
             <!-- Thread List END -->
           </div>
+          <div v-else class="column button is-warning is-7 is-offset-1">
+            <h1>Auhenticated to view resources</h1>
+          </div>
         </div>
       </div>
     </section>
@@ -148,7 +151,7 @@
 
 <script>
 // import axios from 'axios'
-import {mapActions, mapState,} from 'vuex'
+import {mapActions, mapState, mapGetters} from 'vuex'
 export default {
 
     
@@ -161,6 +164,7 @@ export default {
         this.fetchThreads(meetupId)
         
     },
+    
 
     computed:{
         meetupCreator:function(){
@@ -176,7 +180,10 @@ export default {
         ...mapState({
             meetup:state =>state.meetups.meetup,
             threads:state => state.threads.threads
-        })
+        }),
+        ...mapGetters({
+          'user': "auth/authUser",
+    }),
         
         
     },
