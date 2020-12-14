@@ -7,6 +7,7 @@
         <h1 class="title is-4">Meetuper</h1>
       </router-link>
       <a
+      @click="open()"
         role="button"
         class="navbar-burger burger"
         aria-label="menu"
@@ -19,7 +20,7 @@
       </a>
     </div>
 
-    <div id="navbarBasicExample" class="navbar-menu is-active">
+    <div id="navbarBasicExample" :class="classObj">
       <div class="navbar-start">
         <router-link :to="'/'" class="navbar-item"> Home </router-link>
 
@@ -77,13 +78,20 @@ import { mapGetters } from "vuex";
 export default {
   data(){
     return{
-      online:{}
+      online:{},
+       classObj:{
+        'is-active':false,
+        'navbar-menu':true,
+        
+       
+      }
     }
   },
   computed: {
     ...mapGetters({
      'user': "auth/authUser",
     }),
+   
    
   },
   methods:{
@@ -92,8 +100,12 @@ export default {
       .then(()=>{
         this.$router.go('0')
       })
+      
      
 
+    },
+     open(){
+       this.classObj['is-active'] = !this.classObj['is-active'] 
     }
   },
   created(){

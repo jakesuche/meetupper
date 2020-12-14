@@ -168,4 +168,21 @@ export default {
 .is-rounded {
   border-radius: 10px !important;
 }
+
+@media only screen and (max-width: 1000px) {
+  
+  .column.is-one-third, .column.is-one-third-tablet{
+    width:100%
+  }
+ 
+}
+@media only screen  and (max-width: 411px){
+ .title{
+    font-size:20hepx!important;
+    display:inline!important
+  }
+
+  
+}
+
 </style>
