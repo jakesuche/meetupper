@@ -57,10 +57,10 @@ exports.joinMeetup = function (req, res) {
   const user = req.user;
   const {id} = req.params;
 
-  Meetup.findById(id, (err, meetup) => {
+  Meetup.findById(id, (error, meetup) => {
 
-    if(err){
-      return res.status(422).send({err})
+    if(error){
+      return res.status(422).send({error})
     }
     meetup.joinedPeople.push(user);
     meetup.joinedPeopleCount++;

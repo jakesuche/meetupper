@@ -35,12 +35,12 @@ export default {
             
         },
         isMember: (state) => (meetupId) =>{
-             const joinedMeetups = (state.user['joinedMeetups']) ? state.user['joinedMeetups'] : ''
-            const peopleArray = (joinedMeetups) ? Object.keys(state.user['joinedMeetups']).map(i => state.user['joinedMeetups'][i]) : ''
-            
+            //  const joinedMeetups = (state.user) ? state.user['joinedMeetups'] : undefined
+            // const peopleArray = (joinedMeetups) ? Object.keys(state.user['joinedMeetups']).map(i => state.user['joinedMeetups'][i]) : undefined
+            // console.log(joinedMeetups )
             return state.user && 
-            state.user['joinedMeetups'] && 
-            peopleArray.includes(meetupId)
+            state.user['joinedMeetups'] && Object.values(state.user['joinedMeetups']).includes(meetupId)
+            // peopleArray.includes(meetupId)
             //console.log(state.user.joinedMeetups)
            // let meetupIds = []
             // meetupIds.push(state.user.joinedMeetups)
@@ -73,7 +73,14 @@ export default {
 
         },
         logout(context){
-            return axios.post('/api/v1/users/logout')
+            
+            const config = {
+                headers:{
+                    'Cache-Control': "no-store, no-cache, must-revalidate, post-check=0, pre-check=0",
+                'Pragma': "no-cache"
+                }
+            }
+            return axios.post('/api/v1/users/logout', config.headers)
             .then(()=> {
                 localStorage.clear('vue-meet-token')
                 context.commit('setAuthUser', null)

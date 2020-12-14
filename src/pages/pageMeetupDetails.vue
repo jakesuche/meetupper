@@ -44,6 +44,7 @@
                 <div class="meetup-side-box-date m-b-sm">
                   <p><b>Date</b></p>
                   <!-- TODO: meetup startDate -->
+
                   <p>{{meetup.startDate | formatDate}}</p>
                 </div>
                 <div class="meetup-side-box-date m-b-sm">
@@ -209,6 +210,22 @@ export default {
          ...mapActions('threads',['fetchThreads']),
          joinMeetUp(){
            this.$store.dispatch('meetups/joinMeetUp', this.meetup._id)
+           .then(()=>{
+             this.$toasted.show("You just joined this meetup", {
+            duration: 4000,
+            position: "top-center",
+            theme: "bubble",
+          });
+           })
+           .catch((err)=>{
+             console.log(err)
+             this.$router.go(0)
+             this.$toasted.error("An error occured why joining the meetup, please if the  error persist, try refreshing your page", {
+            duration: 4000,
+            position: "top-center",
+            theme: "bubble",
+          });
+           })
 
          }
        

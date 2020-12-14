@@ -22,7 +22,9 @@ exports.getCurrentUser = function (req, res, next) {
   console.log(user)
   // for session auth
   // return res.json(user);
+  
   return res.json(user)
+  
 
 };
 

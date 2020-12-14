@@ -136,7 +136,7 @@ export default {
 
          
           this.$router.push("/");
-
+          
           console.log(res);
           const username = localStorage.getItem("username");
 

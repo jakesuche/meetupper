@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 import CategoryItem from "@/components/categoryItem";
 import MeetupItem from "@/components/meetupItem";
 import Appspinner from "@/components/shared/appSpinner";
@@ -81,7 +81,7 @@ export default {
 
     //   }
     ...mapGetters({
-      user: "auth/authUser",
+      'user': "auth/authUser",
     }),
     ...mapState({
       meetups: (state) => state.meetups.meetups,
@@ -102,7 +102,18 @@ export default {
         this.isLoaded = true;
       })
       .catch((err) => {
-        this.$toasted.error(
+        if(err.response['statusText'] === 'Unprocessable Entity'){
+           this.$toasted.error(
+          "Cannot get resource  because of network connection error ",
+          {
+            duration: 1000000,
+            position: "top-center",
+            theme: "bubble",
+            fullwidth: true,
+          }
+        );
+        }else{
+           this.$toasted.error(
           "Cannot get resource  because of  " + err.response["statusText"],
           {
             duration: 1000000,
@@ -111,37 +122,40 @@ export default {
             fullwidth: true,
           }
         );
+        }
+       
       });
 
     // axios.get('')
-    let token = localStorage.getItem("vue-meet-token") || "";
+    // let token = localStorage.getItem("vue-meet-token") || "";
 
-    const config = {
-      headers: {
-        "Cache-Control": "no-cache",
-        authorization: `Bearer ${token}`,
-      },
-    };
-    axios
-      .get("/api/v1/users/me", config)
-      .then(() => {
-        return true;
-      })
-      .catch((err) => {
-        if (
-          err.response["data"]["message"] ===
-          "Your access token has expired,  pls login again to have access"
-        ) {
-          this.$toasted.error(err.response["data"]["message"], {
-            duration: 10000,
-            position: "top-center",
-            theme: "bubble",
-            fullwidth: true,
-          });
-        } else {
-          return null;
-        }
-      });
+    // const config = {
+    //   headers: {
+    //     'Cache-Control': "no-store, no-cache, must-revalidate, post-check=0, pre-check=0",
+    //     'Pragma': "no-cache",
+    //     authorization: `Bearer ${token}`,
+    //   },
+    // };
+    // axios
+    //   .get("/api/v1/users/me", config)
+    //   .then(() => {
+        
+    //   })
+    //   .catch((err) => {
+    //     if (
+    //       err.response["data"]["message"] ===
+    //       "Your access token has expired,  pls login again to have access"
+    //     ) {
+    //       this.$toasted.error(err.response["data"]["message"], {
+    //         duration: 10000,
+    //         position: "top-center",
+    //         theme: "bubble",
+    //         fullwidth: true,
+    //       });
+    //     } else {
+    //       return null;
+    //     }
+    //   });
   },
   methods: {
     ...mapActions("meetups", ["fetchMeetups"]),

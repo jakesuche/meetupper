@@ -38,6 +38,8 @@
             <a class="navbar-item"> Report an issue </a>
           </div>
         </div>
+        <h1 v-if="online">online</h1>
+        <h1 v-else>offline</h1>
       </div>
 
       <div class="navbar-end">
@@ -73,18 +75,44 @@
 
 import { mapGetters } from "vuex";
 export default {
+  data(){
+    return{
+      online:{}
+    }
+  },
   computed: {
     ...mapGetters({
      'user': "auth/authUser",
     }),
+   
   },
   methods:{
     logout(){
       this.$store.dispatch('auth/logout')
+      .then(()=>{
+        this.$router.go('0')
+      })
      
 
     }
-  }
+  },
+  created(){
+     
+      this.online = navigator.onLine 
+      console.log(this.online)
+
+      if(navigator.onLine == false){
+        this.$toasted.show(" your app is online ", {
+            duration: 4000,
+            position: "top-center",
+            theme: "bubble",
+          });
+      }else{
+        return true
+      }
+      
+    }
+  
 };
 </script>
 

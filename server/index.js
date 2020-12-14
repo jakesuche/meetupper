@@ -8,25 +8,25 @@ const passport = require('passport')
 
 const app = express();
 const path =require('path')
-const helmet = require('helmet')
-const xssClean = require('xss-clean')
-const expressRateLimit = require('express-rate-limit');
-const hpp = require('hpp')
+// const helmet = require('helmet')
+// const xssClean = require('xss-clean')
+// const expressRateLimit = require('express-rate-limit');
+// const hpp = require('hpp')
 
-helmet 
-app.use(helmet())
+// helmet 
+// app.use(helmet())
 
-//prevent xss attack 
-app.use(xssClean())
+// //prevent xss attack 
+// app.use(xssClean())
 
-app.use(hpp())
-// express rate limiting 
-const limiter = expressRateLimit({
-  windowMs:10 * 60 *1000,
-  max: 100
-})
+// app.use(hpp())
+// // express rate limiting 
+// const limiter = expressRateLimit({
+//   windowMs:10 * 60 *1000,
+//   max: 100
+// })
 
-app.use(limiter)
+// app.use(limiter)
 
 
 
@@ -89,6 +89,12 @@ app.use(passport.initialize())
 //   next()
 // })
 global.User = require("./models/users");
+
+app.use(function(req,res,next){
+  res.setHeader('Cache-control', 'Cache-Control', 'private, no-cache, no-store')
+  res.setHeader('Pragma', 'no-cache')
+  next()
+})
 
 app.use(function(req,res,next){
   console.log(req.headers.Authorization)
