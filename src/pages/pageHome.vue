@@ -178,7 +178,7 @@ export default {
 }
 @media only screen  and (max-width: 411px){
  .title{
-    font-size:20hepx!important;
+    font-size:20px!important;
     display:inline!important
   }
 
