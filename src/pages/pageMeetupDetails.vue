@@ -219,12 +219,15 @@ export default {
            })
            .catch((err)=>{
              console.log(err)
-             this.$router.go(0)
+             
              this.$toasted.error("An error occured why joining the meetup, please if the  error persist, try refreshing your page", {
             duration: 4000,
             position: "top-center",
             theme: "bubble",
           });
+            setTimeout(function(){
+              this.$router.go(0)
+            },5000)
            })
 
          }

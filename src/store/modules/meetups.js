@@ -49,9 +49,7 @@ export default {
 
         
       })
-      .catch(err=>{
-        console.log(err.message, 'this error came from module')
-      })
+     
     }
   },
   mutations: {
