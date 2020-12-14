@@ -12,7 +12,7 @@ export default {
     },
     actions:{
         fetchCategories(context) {
-            context.commit('setMeetups', {})
+            // context.commit('setMeetups', {})
            return axios.get("/api/v1/categories").then((res) => {
             const categories = res.data;
             context.commit("setCategories", categories, {root:true});

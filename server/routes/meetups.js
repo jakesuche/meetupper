@@ -8,5 +8,8 @@ console.log(!!authUser)
 router.get('', MeetupsCtrl.getMeetups);
 router.get('/secret', authUser, MeetupsCtrl.getSecret);
 router.get('/:id', MeetupsCtrl.getMeetupById);
+router.post('', authUser, MeetupsCtrl.createMeetup);
+router.post('/:id/join', authUser, MeetupsCtrl.joinMeetup)
+router.post('/:id/leave', authUser,MeetupsCtrl.leaveMeetup )
 
 module.exports = router;

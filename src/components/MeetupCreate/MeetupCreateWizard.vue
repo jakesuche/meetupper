@@ -16,14 +16,14 @@
     <progress class="progress" :value="currentProgress" max="100">
       100%
     </progress>
-    <RadialProgressBar
+    <!-- <RadialProgressBar
       :diameter="200"
       :completed-steps="currentProgress"
       :total-steps="100"
     >
       <p>Total steps: 4</p>
       <p>Completed steps: {{ currentStep }}</p>
-    </RadialProgressBar>
+    </RadialProgressBar> -->
     <div class="controll-btns m-b-md">
       <button
         v-if="currentStep !== 1"
@@ -42,7 +42,7 @@
         Next
       </button>
       <!-- Confirm Data -->
-      <button v-if="hideFront" class="button is-primary">Confirm</button>
+      <button @click="emitMeetupConfirm()" v-if="hideFront" class="button is-primary">Confirm</button>
     </div>
     <!-- Just To See Data in the Form -->
     <pre><code>{{form}}</code></pre>
@@ -54,14 +54,14 @@ import MeetupLocation from "./MeetupLocation";
 import MeetupDetail from "./MeetupDetail";
 import MeetupDescription from "./MeetupDescription";
 import MeetupConfirmation from "./MeetupConfirmation";
-import RadialProgressBar from "vue-radial-progress";
+// import RadialProgressBar from "vue-radial-progress";
 export default {
   components: {
     MeetupLocation,
     MeetupDetail,
     MeetupDescription,
     MeetupConfirmation,
-    RadialProgressBar,
+    // RadialProgressBar,
   },
   data() {
     return {
@@ -90,6 +90,7 @@ export default {
     hideFront() {
       return this.currentStep === 4;
     },
+   
   },
   methods: {
     margeStepData(StepData) {
@@ -101,7 +102,14 @@ export default {
     moveBack() {
       this.currentStep--;
     },
+     emitMeetupConfirm(){
+      
+      this.$emit('meetupConfirm' , this.form)
+     
+    },
+   
   },
+
 };
 </script>
 

@@ -35,10 +35,16 @@
     </div>
     <div class="field">
       <label class="title m-b-sm">From</label>
-      <vue-timepicker format="HH:mm:ss"></vue-timepicker>
-    <timeselector></timeselector>
+      <!-- <vue-timepicker format="HH:mm:ss"></vue-timepicker> -->
+    <!-- <timeselector></timeselector> -->
+     <input
+        v-model="form.timeFrom"
+        class="input"
+        type="text"
+        placeholder="Time to"
+      />
     </div>
-    <vue-timepicker format="HH:mm:ss"></vue-timepicker>
+   
     <div class="field">
       <label class="title m-b-sm">To</label>
       <input
@@ -75,10 +81,10 @@
 
 <script>
 import { required } from "vuelidate/lib/validators";
-import datepicker from "vuejs-datepicker";
+ import datepicker from "vuejs-datepicker";
 import moment from "moment";
-import VueTimepicker from 'vue2-timepicker'
-import Timeselector from 'vue-timeselector';
+// import VueTimepicker from 'vue2-timepicker'
+// import Timeselector from 'vue-timeselector';
 
 export default {
   data() {
@@ -110,7 +116,7 @@ export default {
   },
   computed: {
     categories() {
-      console.log(this.$store.state.categories.categories);
+      // console.log(this.$store.state.categories.categories);
       return this.$store.state.categories.categories;
     },
   },
@@ -128,8 +134,8 @@ export default {
   },
   components: {
     datepicker,
-    VueTimepicker,
-    Timeselector
+    // VueTimepicker,
+    // Timeselector
   },
 };
 </script>

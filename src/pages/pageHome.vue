@@ -1,7 +1,7 @@
 <template>
-  <div v-if="isLoaded">
+  <div >
     <AppHero />
-    <div class="container">
+    <div  v-if="isLoaded" class="container">
       <section class="section">
         <div class="m-b-lg">
           <h1 class="title is-inline">Featured Meetups in "Location"</h1>
@@ -43,10 +43,11 @@
         </div>
       </section>
     </div>
-  </div>
   <div class="container" v-else>
     <Appspinner />
   </div>
+  </div>
+  
 </template>
 
 <script>

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import axiosInstance from '@/services/axios'
+import Vue from 'vue'
 // import { rejectError } from '@/helpers/index'
 
 
@@ -22,6 +23,33 @@ export default {
             console.log(!!state.user)
             return !!state.user 
             
+        },
+        isMeetupOwner: (state) =>  (meetupCreatorId) => {
+            if(!state.user)
+                return false
+            
+                // console.log(state.user)
+                // console.log(meetupCreatorId + ' hello hshsh')
+                // console.log(state.user._id)
+                return state.user._id === meetupCreatorId
+            
+        },
+        isMember: (state) => (meetupId) =>{
+             const joinedMeetups = (state.user['joinedMeetups']) ? state.user['joinedMeetups'] : ''
+            const peopleArray = (joinedMeetups) ? Object.keys(state.user['joinedMeetups']).map(i => state.user['joinedMeetups'][i]) : ''
+            
+            return state.user && 
+            state.user['joinedMeetups'] && 
+            peopleArray.includes(meetupId)
+            //console.log(state.user.joinedMeetups)
+           // let meetupIds = []
+            // meetupIds.push(state.user.joinedMeetups)
+            // console.log(meetupIds)
+          //let result = (state.user.joinedMeetups.includes(meetupId)) ? true : false
+        //    console.log(state.user.joinedMeetups.includes(meetupId))
+        //     return state.user && 
+        //            state.user['joinedMeetups'] && 
+        //            state.user.joinedMeetups.includes(meetupId)
         }
       
     },
@@ -30,7 +58,7 @@ export default {
             return axios.post('/api/v1/users/login', userData)
             .then(res=>{
                 const user = res.data
-                console.log(res.data, 'sjsjsjs')
+               
                 localStorage.setItem('username', user.username)
                 localStorage.setItem('vue-meet-token', user.token)
                 context.commit('setAuthUser',user)
@@ -59,10 +87,10 @@ export default {
         },
         getAuthUser(context){
             const authUser = context.getters['authUser']
-            const token = localStorage.getItem('vue-meet-token')
+            // const token = localStorage.getItem('vue-meet-token')
            
            
-            console.log(token, 'getUser')
+            // console.log(token, 'getUser')
             if(authUser){ return Promise.resolve(authUser)}
 
             const config = {
@@ -73,6 +101,58 @@ export default {
             }
 
             return axiosInstance.get('/api/v1/users/me', config)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             .then((res) => {
                 const user = res.data
                 context.commit('setAuthUser', user)
@@ -90,7 +170,15 @@ export default {
         
                 return err
             })
+        },
+        addMeetupToAuthUser({commit,state},meetupId){
+            const userMeetups = {...state.user['joinedMeetups'], meetupId}
+            console.log(userMeetups)
+            commit('setMeetupsToAuthUser', userMeetups)
         }
+        
+
+        
 
     },
     mutations:{
@@ -99,6 +187,9 @@ export default {
         },
         setAuthState(state, authState){
             return state.isAuthResolved = authState
+        },
+        setMeetupsToAuthUser(state, meetups){
+            return Vue.set(state.user, 'joinedMeetups', meetups)
         }
 
     }

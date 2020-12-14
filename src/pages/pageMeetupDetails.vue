@@ -31,7 +31,7 @@
         </div>
         <div class="is-pulled-right">
           <!-- We will handle this later (: -->
-          <button class="button is-danger">Leave Group</button>
+          <button v-if="isMember" class="button is-danger">Leave Meetup</button>
         </div>
       </div>
     </section>
@@ -87,16 +87,16 @@
               <!-- Threads Ends -->
             </aside>
           </div>
-          <div  v-if="user" class="column is-7 is-offset-1">
+          <div   class="column is-7 is-offset-1">
             <div class="content is-medium">
               <h3 class="title is-3">About the Meetup</h3>
               <!-- TODO: meetup description -->
               <p>{{meetup.description}}</p>
               <!-- Join Meetup, We will handle it later (: -->
-              <button class="button is-primary">Join In</button>
+              <button @click="joinMeetUp()"  v-if="canJoin" class="button is-primary">Join In</button>
               <!-- Not logged In Case, handle it later (: -->
-              <!-- <button :disabled="true"
-                      class="button is-warning">You need authenticate in order to join</button> -->
+              <button  v-if="!isAuthenticated" :disabled="true"
+                      class="button is-warning">You need to authenticate in order to join</button> 
             </div>
             <!-- Thread List START -->
             <div  class="content is-medium">
@@ -140,9 +140,7 @@
             </div>
             <!-- Thread List END -->
           </div>
-          <div v-else class="column button is-warning is-7 is-offset-1">
-            <h1>Auhenticated to view resources</h1>
-          </div>
+         
         </div>
       </div>
     </section>
@@ -151,7 +149,7 @@
 
 <script>
 // import axios from 'axios'
-import {mapActions, mapState, mapGetters} from 'vuex'
+import {mapActions, mapState} from 'vuex'
 export default {
 
     
@@ -181,15 +179,40 @@ export default {
             meetup:state =>state.meetups.meetup,
             threads:state => state.threads.threads
         }),
-        ...mapGetters({
-          'user': "auth/authUser",
-    }),
+        isAuthenticated(){
+          return this.$store.getters['auth/isAuthenticated']
+        },
+        // sanitaize meetup error
+        meetupCreatorId(){
+          let creatorId = this.meetup.meetupCreator ? this.meetup.meetupCreator._id : ''
+          return creatorId
+        },
+        isMeetupOwner(){
+          return this.$store.getters['auth/isMeetupOwner'](this.meetupCreatorId)
+        },
+        isMember(){
+          return this.$store.getters['auth/isMember'](this.meetup._id)
+        },
+        canJoin(){
+          return !this.isMeetupOwner && this.isAuthenticated && !this.isMember
+        }
+
+
+    //     ...mapGetters({
+    //       'user': "auth/authUser",
+    // }),
         
         
     },
     methods: {
         ...mapActions('meetups',['fetchMeetupBy']),
-         ...mapActions('threads',['fetchThreads'])
+         ...mapActions('threads',['fetchThreads']),
+         joinMeetUp(){
+           this.$store.dispatch('meetups/joinMeetUp', this.meetup._id)
+
+         }
+       
+         
     }
 
     

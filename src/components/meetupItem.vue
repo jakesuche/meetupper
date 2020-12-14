@@ -27,7 +27,7 @@
                     <!-- meet up title -->
                     <p class="title is-4 no-padding is-marginless">{{meetup.title}}</p>
                     <!-- meet up category  -->
-                    <span class="tag is-success">{{meetup.category.name}}</span>
+                    <span class="tag is-success">{{ checkName() }}</span>
                     <!-- meetup lcation  -->
                     <p class="subtitle is-7">{{meetup.location}}</p>
                 </div>
@@ -47,7 +47,13 @@
 
 <script>
 export default {
-    props:['meetup']
+    props:['meetup'],
+    methods:{
+      checkName(){
+        let name = this.meetup.category.name ? this.meetup.category.name : ''
+        return name
+      }
+    }
     
 }
 </script>
