@@ -149,13 +149,13 @@ module.exports = {
     {
       "_id": user1Id,
       "avatar": "https://b.kisscc0.com/20180718/urw/kisscc0-ninja-computer-icons-samurai-youtube-avatar-ninja-5b4ed903c2dd20.4931332915318940197982.jpg",
-      "email": "filip@gmail.com",
-      "name": "Filip Jerga",
+      "email": "u@gmail.com",
+      "name": "uchechukwu chidiebere",
       "info": "Bla bla bla bla",
       "createdAt": moment().toISOString(),
       "updatedAt": moment().toISOString(),
-      "username": "Rhonyn99",
-      "password": "testtest",
+      "username": "jake99",
+      "password": "222222",
       joinedMeetups: [meetup2Id, meetup3Id, meetup4Id, meetup5Id, meetup6Id]
     },
     {

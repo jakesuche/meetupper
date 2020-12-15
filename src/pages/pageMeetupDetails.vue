@@ -31,7 +31,7 @@
         </div>
         <div class="is-pulled-right">
           <!-- We will handle this later (: -->
-          <button v-if="isMember" class="button is-danger">Leave Meetup</button>
+          <button @click="leaveMeetup()"  v-if="isMember" class="button is-danger">Leave Meetup</button>
         </div>
       </div>
     </section>
@@ -225,15 +225,31 @@ export default {
             position: "top-center",
             theme: "bubble",
           });
-            setTimeout(function(){
-              this.$router.go(0)
-            },5000)
+           
+            this.$router.go(0)
+        
            })
 
-         }
+         },
+         leaveMeetup(){
+           this.$store.dispatch('meetups/leaveMeetup', this.meetup._id)
+           .then(()=>{
+             this.$toasted.show("You this meetup", {
+            duration: 4000,
+            position: "top-center",
+            theme: "bubble",
+          });
+
+           })
+           .catch(err=>{
+             console.log(err.message)
+           })
+      
+    }
        
          
-    }
+    },
+    
 
     
     

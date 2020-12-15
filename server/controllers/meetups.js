@@ -76,12 +76,12 @@ exports.joinMeetup = function (req, res) {
 exports.leaveMeetup = function (req, res) {
   const user = req.user;
   const {id} = req.params;
-  if(err){
-    return res.status(422).send({err})
-  }
+  
   Promise.all(
     [Meetup.updateOne({ _id: id }, { $pull: { joinedPeople: user.id }, $inc: {joinedPeopleCount: -1}}),
      User.updateOne({ _id: user.id }, { $pull: { joinedMeetups: id }})])
     .then(result => res.json({id}))
-    .catch(err => res.status(422).send(err))
+    .catch(err => {
+      console.log(err.message)
+      res.status(422).send(err)})
 }

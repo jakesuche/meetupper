@@ -62,7 +62,7 @@
             <router-link :to="{ name: 'pageSignUp' }" class="button is-primary">
               <strong>Sign up</strong>
             </router-link>
-            <router-link :to="{ name: 'pageLogin' }" class="button is-light">
+            <router-link @click="classObj['is-active'] === false" :to="{ name: 'pageLogin' }" class="button is-light">
               Log in
             </router-link>
           </div>

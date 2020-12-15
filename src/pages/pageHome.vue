@@ -83,6 +83,8 @@ export default {
     ...mapGetters({
       'user': "auth/authUser",
     }),
+
+    
     ...mapState({
       meetups: (state) => state.meetups.meetups,
       categories: (state) => state.categories.categories,
@@ -176,11 +178,46 @@ export default {
   }
  
 }
-@media only screen  and (max-width: 411px){
+@media only screen  and (max-width: 529px){
  .title{
     font-size:20px!important;
-    display:inline!important
+    display:inline!important;
+  
+   /* position: relative;
+    left: 60px;
+    ma */
+    
   }
+  .button.is-primary{
+    background-color: #00d1b2;
+    border-color: transparent;
+    color: #fff;
+    max-width: 10px !important;
+    max-height: 30px !important;
+    position: relative !important;
+    bottom: 70px !important;
+    right: 390px !important;
+  }
+  .button {
+    background-color: white ;
+    border-color: #dbdbdb;
+    border-width: 1px;
+    color: #363636;
+    cursor: pointer;
+    justify-content: center;
+    padding-bottom: calc(0.5em - 1px);
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: calc(0.5em - 1px);
+    text-align: center;
+    white-space: nowrap;
+    max-width: 10px !important;
+    max-height: 30px!important;
+    position: relative !important;
+    bottom: 70px !important;
+    right: 380px !important;
+}
+
 
   
 }
