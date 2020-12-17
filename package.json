@@ -26,6 +26,7 @@
     "hpp": "^0.2.3",
     "http-proxy-middleware": "^1.0.6",
     "jsonwebtoken": "^8.5.1",
+    "material-icons": "^0.5.1",
     "moment": "^2.29.1",
     "mongoose": "^5.11.1",
     "morgan": "^1.10.0",
@@ -47,6 +48,7 @@
     "vue2-timepicker": "^1.1.5",
     "vuejs-datepicker": "^1.6.2",
     "vuelidate": "^0.7.6",
+    "vuesax": "^3.12.2",
     "vuex": "^3.5.1",
     "xss-clean": "^0.1.1"
   },

@@ -31,6 +31,11 @@ export default new Vuex.Store({
     setThreads(state, threads) {
       state.threads.threads = threads;
     },
+    addItemToArray(state,{item,index,resource}){
+      Vue.set(state[resource].threads, index, item)
+    }
+  //  context.commit('addItemToArray',createdThread,{root:true})
+           
     // setItems(state,{resource, items}){
     //     state[resource].item = items
     // }
