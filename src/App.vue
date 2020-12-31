@@ -7,7 +7,10 @@
     <TheFooter />
   </div>
   <div v-else>
-    <div class="loader"></div>
+    <!-- <div class="loader"></div> -->
+    <div v-show="openLoadingColor()">
+
+    </div>
 
   </div>
 </template>
@@ -26,8 +29,20 @@ export default {
   computed:{
     isAuthResolved(){
       return this.$store.state.auth.isAuthResolved
-    }
+    },
+    show(){
+       return this.$vs.loading()
+    },
 
+
+  },
+  methods:{
+    openLoadingColor(){
+      this.$vs.loading({color:this.colorLoading})
+      setTimeout( ()=> {
+        this.$vs.loading.close()
+      }, 2000);
+    },
   },
   created(){
     // this.$store.dispatch('auth/getAuthUser')

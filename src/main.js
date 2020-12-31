@@ -10,6 +10,14 @@ import vuelidate from 'vuelidate'
 import Toasted from 'vue-toasted'
 
 
+import customPlugin from '@/plugins/customPlugin'
+import Appsocket from '@/plugins/socket'
+import Vuesax from 'vuesax'
+import 'vuesax/dist/vuesax.css'
+import 'material-icons/iconfont/material-icons.css';
+
+
+
 
 
 Vue.config.productionTip = false
@@ -18,11 +26,14 @@ Vue.config.productionTip = false
 // Vue.config.debug = false
 // Vue.config.silent = true
 
+
 Vue.component('AppHero', AppHero)
 Vue.component('AppDropdown', AppDropdown)
-
+Vue.use(customPlugin)
+Vue.use(Appsocket, {connection:'http://localhost:3001'})
 Vue.use(vuelidate)
 Vue.use(Toasted)
+Vue.use(Vuesax)
 
 
 Vue.filter('capitalize', function(value){
@@ -41,10 +52,16 @@ Vue.filter('formatDate', function(value,  formatType = "LL"){
   return moment(value).format(formatType)
 })
 
+Vue.filter('fromNow', function(value, formatType = 'LL'){
+  if(!value) return ''
+  return moment(value).fromNow()
+})
+// const socket = io('http://localhost:3001')
+
 new Vue({
   router,
- 
   store,
   vuelidate,
   render: h => h(App),
 }).$mount('#app')
+

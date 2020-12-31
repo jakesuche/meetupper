@@ -5,31 +5,30 @@
       <!-- Thread title -->
       <h4 id="const" class="title is-3">{{ thread.title }}</h4>
       <!-- Create new post, handle later -->
-      <form class="post-create">
-        <div class="field">
+      <!-- <form class="post-create">
+        <div class="field"> -->
           <!-- v-with-warning:purple.prevent="'What a nice day'" -->
-          <textarea
+          <!-- <textarea
             v-auto-expand
             v-model="text"
             v-if="isAuthenticated"
             class="textarea textarea-post"
             placeholder="Write a post"
             rows="1"
-          ></textarea>
-          <button
+          ></textarea> -->
+          <!-- <button
             @click.prevent="sendPost"
             v-if="canMakepost"
             :disabled="!text"
             class="button is-primary m-t-sm"
           >
             Send
-          </button>
-        </div>
-      </form>
+          </button> -->
+        <!-- </div>
+      </form> -->
       <post-creat
         
         :canMakepost="canMakepost"
-        :text="text"
         :isAuthenticated="isAuthenticated"
         :threadId="thread._id"
         
@@ -54,7 +53,7 @@
               {{ " " }}
               <!-- Post Updated at -->
               <small class="post-time">{{
-                post.updatedAt | formatDate("LLL")
+                post.updatedAt | fromNow
               }}</small>
               <br />
               <p class="post-content-message">{{ post.text }}</p>
@@ -87,11 +86,7 @@ export default {
       require: true,
     },
   },
-  data() {
-    return {
-      text: "",
-    };
-  },
+ 
  
 };
 </script>

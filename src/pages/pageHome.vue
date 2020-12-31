@@ -57,6 +57,7 @@ import MeetupItem from "@/components/meetupItem";
 import Appspinner from "@/components/shared/appSpinner";
 import { mapActions, mapState, mapGetters } from "vuex";
 
+
 export default {
   components: {
     CategoryItem,
@@ -92,6 +93,7 @@ export default {
   },
 
   created() {
+   
     //   console.log(this.fetchMeetups())
     //  this.$store.dispatch('fetchMeetups')
     //  this.$store.dispatch('fetchCategories')
@@ -101,10 +103,12 @@ export default {
         return this.fetchCategories();
       })
       .then(() => {
+        this.$vs.loading.close()
         this.isLoaded = true;
       })
       .catch((err) => {
         if(err.response['statusText'] === 'Unprocessable Entity'){
+          this.$vs.loading.close()
            this.$toasted.error(
           "Cannot get resource  because of network connection error ",
           {
@@ -115,6 +119,7 @@ export default {
           }
         );
         }else{
+         
            this.$toasted.error(
           "Cannot get resource  because of  " + err.response["statusText"],
           {

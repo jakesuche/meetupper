@@ -2,11 +2,55 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const config = require('./config/prod');
+const cors = require('cors')
 // const session = require('express-session')
 const passport = require('passport')
 //const mongoStore = require('connect-mongodb-session')(session)
+const allowedoOrigins = [
+  'capacitor://localhost',
+  'ionic://localhost',
+  'http://localhost',
+  'http://localhost:8080',
+  'http://localhost:8100'
+]
 
+// const corsOptions = {
+//   origin: (origin, callback) => {
+//     if(allowedoOrigins.includes(origin) || !origin){
+//       callback(null,true)
+//     }else{
+//       callback(new Error('Origin not allowed'))
+//     }
+//   }
+// }
 const app = express();
+app.use(function(req,res,next){
+  res.header('Access-Control-Allow-Origin','*')
+  next()
+})
+
+// app.options('*', cors(corsOptions))
+
+
+
+const server = require('http').createServer(app)
+// const io = require('socket.io')(server, {pingTimeout:60000})
+
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "http://localhost:8080",
+    methods: ["GET", "POST"]
+  }
+});
+
+
+
+
+
+require('./socket')(io)
+io.on('connection', function(socket){
+  console.log('connection established')
+})
 const path =require('path')
 // const helmet = require('helmet')
 // const xssClean = require('xss-clean')
@@ -90,11 +134,7 @@ app.use(passport.initialize())
 // })
 global.User = require("./models/users");
 
-app.use(function(req,res,next){
-  res.setHeader('Cache-control', 'Cache-Control', 'private, no-cache, no-store')
-  res.setHeader('Pragma', 'no-cache')
-  next()
-})
+
 
 app.use(function(req,res,next){
   console.log(req.headers.Authorization)
@@ -117,6 +157,6 @@ app.use('/api/v1/categories', categoriesRoutes);
 
 const PORT = process.env.PORT || 3001;
 
-app.listen(PORT , function() {
+server.listen(PORT , function() {
   console.log('App is running on port: ' + PORT);
 });

@@ -47,6 +47,7 @@ export default {
 
         const joinedPeople = state.meetup.joinedPeople
         commit('addUsersToMeetups', [...joinedPeople, user])
+        return joinedPeople
 
         
       })

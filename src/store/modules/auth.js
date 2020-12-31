@@ -14,16 +14,23 @@ export default {
       return state.user || null;
     },
     isAuthenticated(state) {
-      console.log(!!state.user);
+     
       return !!state.user;
     },
     isMeetupOwner: (state) => (meetupCreatorId) => {
-      if (!state.user) return false;
-
+     
+      if(!state.user){
+        return false
+      }
+      else{
+        return state.user._id === meetupCreatorId;
+      }
+      // if (!state.user) return false;
+      // return state.user._id === meetupCreatorId;
       // console.log(state.user)
       // console.log(meetupCreatorId + ' hello hshsh')
       // console.log(state.user._id)
-      return state.user._id === meetupCreatorId;
+      
     },
     isMember: (state) => (meetupId) => {
       //  const joinedMeetups = (state.user) ? state.user['joinedMeetups'] : undefined
@@ -55,6 +62,7 @@ export default {
         localStorage.setItem("username", user.username);
         localStorage.setItem("vue-meet-token", user.token);
         context.commit("setAuthUser", user);
+        return user
       });
     },
     registerUser(context, userData) {
@@ -103,14 +111,17 @@ export default {
           const user = res.data;
           context.commit("setAuthUser", user);
           context.commit("setAuthState", true);
-          console.log(res.status);
+          
+          
           return user;
         })
         .catch((err) => {
+          
           context.commit("setAuthUser", null);
+          
           context.commit("setAuthState", true);
           // console.log(err.response.data['message'])
-          console.log(this);
+          
           // this.$toasted.error(err.response.data['message'],{duration:7000,position:"top-center",theme:"bubble",fullwidth:true})
 
           return err;
@@ -120,12 +131,14 @@ export default {
       const userMeetups = [ ...state.user["joinedMeetups"], meetupId ];
       console.log(userMeetups);
       commit("setMeetupsToAuthUser", userMeetups);
+      return userMeetups
     },
     removeMeetupFromAuthUser({commit, state}, meetupId){
         const userMeetupsIds = [...state.user['joinedMeetups']]
         const index = userMeetupsIds.findIndex(userMeetupId => userMeetupId === meetupId )
         userMeetupsIds.splice(index, 1)
         commit('setMeetupsToAuthUser', userMeetupsIds)
+        return userMeetupsIds
     }
   },
   mutations: {

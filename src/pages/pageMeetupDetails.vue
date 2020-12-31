@@ -167,6 +167,25 @@ export default {
     // this.$store.dispatch('fetchThreads', meetupId)
     this.fetchMeetupBy(meetupId);
     this.fetchThreads(meetupId);
+    if(this.isAuthenticated){
+      this.$socket.emit('meetup/subscribe', meetupId)
+      
+      this.$socket.on('meetup/postPublished',(post) => this.addPostToThread({post, threadId:post.thread}))
+    }
+
+    // if(this.isAuthenticated){
+    //   this.$socket.emit('meetup/subscribe', meetupId)
+    // this.$socket.on('meetup/postPublished', function(post){
+    //   console.log(post.post.text)
+    //   alert(post['post']['text'])
+    
+    // })
+    // }
+  },
+
+  destroyed(){
+    this.$socket.removeListener('meetup/postPublished', (post) => this.addPostToThread({post, threadId:post.thread}))
+    this.$socket.emit('meetup/unsubscribe')
   },
 
   computed: {
@@ -223,7 +242,7 @@ export default {
   },
   methods: {
     ...mapActions("meetups", ["fetchMeetupBy"]),
-    ...mapActions("threads", ["fetchThreads", "postThread"]),
+    ...mapActions("threads", ["fetchThreads", "postThread", 'addPostToThread']),
     joinMeetUp() {
       this.$store
         .dispatch("meetups/joinMeetUp", this.meetup._id)

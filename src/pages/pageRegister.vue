@@ -188,10 +188,15 @@ export default {
     
     register() {
       console.log(this.$v)
+      this.$vs.loading()
       this.$v.form.$touch()
        this.$store.dispatch('auth/registerUser', this.form)
-       .then(() => this.$router.push('/login'))
-       .catch(err =>console.log(err))
+       .then(() => { 
+         this.$vs.loading.close()
+         this.$router.push('/login')})
+       .catch(err =>{
+         this.$vs.loading.close()
+         console.log(err)})
      
     }
     

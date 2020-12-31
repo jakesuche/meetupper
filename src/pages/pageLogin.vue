@@ -1,5 +1,5 @@
 <template>
-  <section class="hero is-success is-fullheight">
+  <section  v-if='isAuthResolved' class="hero is-success is-fullheight">
     <div class="hero-body">
       <div class="container has-text-centered">
         <div class="column is-4 is-offset-4">
@@ -58,6 +58,7 @@
                 Login
               </button> -->
               <button
+                
                 @click.prevent="login"
                 :disabled="isFormInValid"
                 :class="classObj"
@@ -109,7 +110,12 @@ export default {
     isFormInValid() {
       return this.$v.form.$invalid;
     },
+     isAuthResolved(){
+      return this.$store.state.auth.isAuthResolved
+    },
+   
   },
+ 
   validations: {
     form: {
       email: {
@@ -123,28 +129,46 @@ export default {
     },
   },
   methods: {
+   
+   randomIcon(){
+      function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+      }
+      let color = `rgb(${getRandomInt(0,255)},${getRandomInt(0,255)},${getRandomInt(0,255)})`
+
+      this.$vs.notify({title:'Icon mail',text:'Lorem ipsum dolor sit amet, consectetur',color:color,icon:'verified_user'})
+    },
+    openLoading(){
+      this.$vs.loading()
+      setTimeout( ()=> {
+        this.$vs.loading.close()
+      }, 2000);
+    }
+    
+    ,
     login() {
       this.$v.form.$touch();
       this.spinnerActive = true
+      this.$vs.loading()
      this.isError = false
      this.ishideLogin = false
       this.classObj['is-warning'] = false
       this.$store
         .dispatch("auth/loginWithEmailAndPassword", this.form)
         .then((res) => {
-         
-
-         
+          const username = localStorage.getItem("username");
+          this.$vs.notify({text:`        welcome  ${username}   `,color:'primary',icon:'verified_user',position:'top-center'})
+          this.$vs.loading.close()
           this.$router.push("/");
           
           console.log(res);
-          const username = localStorage.getItem("username");
-
-          this.$toasted.show("welcome " + username, {
-            duration: 4000,
-            position: "top-center",
-            theme: "bubble",
-          });
+          
+         
+          // this.$toasted.show("welcome " + username, {
+          //   duration: 4000,
+          //   position: "top-center",
+          //   theme: "bubble",
+          // });
          
          
         })
@@ -154,6 +178,9 @@ export default {
             this.spinnerActive =  false
             this.isError = true
             this.ishideLogin = false
+            this.$vs.loading.close()
+
+            
             this.classObj['is-warning'] = true
             this.spinnerActive =  false
             this.$toasted.error(
@@ -167,15 +194,18 @@ export default {
               }
             );
           } else {
+            this.$vs.loading.close()
             this.spinnerActive =  false
             this.isError = true
             this.classObj['is-warning'] = true
-            this.$toasted.error(message, {
-              duration: 4000,
-              position: "top-center",
-              theme: "bubble",
-              fullwidth: true,
-            });
+             this.$vs.notify({text:`  ${message}  `,color:'warning',icon:'report_problem',position:'top-center'})
+         
+            // this.$toasted.error(message, {
+            //   duration: 4000,
+            //   position: "top-center",
+            //   theme: "bubble",
+            //   fullwidth: true,
+            // });
           }
         });
     },

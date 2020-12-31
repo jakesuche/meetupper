@@ -46,18 +46,40 @@ export default {
       require: true,
     },
     },
+    computed:{
+      meetup(){
+        return this.$store.state.meetups.meetup
+      }
+    },
      methods: {
     sendPost() {
       const thread = {
         text: this.text,
+        threadId:this.threadId
       };
-      console.log(thread);
-      console.log(this.threads._id);
-      // this.$store.dispatch('threads/sendPost', thread)
+     
+      
+       this.$store.dispatch('threads/sendPost', thread)
+       .then((createdPost)=>{
+           this.$socket.emit('meetup/postSaved',
+           {...createdPost, meetup:this.meetup._id})
+           
+           this.text=""
+       })
     },
   },
 }
 </script>
-<style lang="less" scoped>
+<style lang="scss" scoped>
+
+.post-create {
+  margin-bottom: 15px;
+}
+.textarea-post {
+  padding-bottom: 30px;
+}
+.textarea{
+    cursor:pointer
+}
 
 </style>
