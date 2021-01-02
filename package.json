@@ -78,7 +78,8 @@
     },
     "rules": {
       "no-unused-vars": 1,
-      "no-debugger": 1
+      "no-debugger": 1,
+       "no-undef":1
     }
   },
   "browserslist": [

@@ -264,18 +264,34 @@ exports.getUserActivity = function (req, res) {
 }
 
 exports.updateUser = (req, res) => {
-  const userId = req.params.id;
+  const userId = req.params.id ;
   const userData = req.body;
   const user = req.user;
-
-  if (user.id === userId) {
-    // new: bool - true to return the modified document rather than the original. defaults to false
-    User.findByIdAndUpdate(userId, { $set: userData}, { new: true }, (errors, updatedUser) => {
-      if (errors) return res.status(422).send({errors});
-      return res.json(updatedUser);
-    });
-  } else {
+  console.log(userId)
+  console.log(user._id)
+  
+    if(userId == user._id){
+    User.findByIdAndUpdate({_id:userId},{$set:userData}, {new:true},(err,data) => {
+        if(err){
+          return res.status(422).send({err})
+        }else{
+          return res.status(200).json(data)
+        }
+    })
+  }else{
     return res.status(422).send({errors: 'Authorization Error!'})
   }
+  // if (user._id == userId) {
+  //   //new: bool - true to return the modified document rather than the original. defaults to false
+  //   User.findByIdAndUpdate(userId, { $set: userData}, { new: true }, (errors, updatedUser) => {
+  //     if (errors) return 
+  //     res.status(422).send({errors});
+      
+  //     return res.json(updatedUser);
+  //   });
+  // } else {
+
+  //   return res.status(422).send({errors: 'Authorization Error!'})
+  // }
 }
 

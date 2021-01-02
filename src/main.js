@@ -49,7 +49,7 @@ Vue.filter('capitalize', function(value){
 Vue.filter('formatDate', function(value,  formatType = "LL"){
   if(!value)return ""
 
-  return moment(value).format(formatType)
+  return moment(value).format(formatType ="LL")
 })
 
 Vue.filter('fromNow', function(value, formatType = 'LL'){

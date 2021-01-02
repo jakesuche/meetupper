@@ -6,6 +6,8 @@ import meetups from './modules/meetups'
 import threads from './modules/threads'
 import categories from './modules/categories'
 import auth from './modules/auth'
+import stats from './modules/stats'
+import meta from './modules/meta'
 
 Vue.use(Vuex);
 
@@ -14,7 +16,9 @@ export default new Vuex.Store({
        meetups,
        threads,
        categories,
-       auth
+       auth,
+       stats,
+       meta
    } ,
 
 
@@ -30,6 +34,9 @@ export default new Vuex.Store({
     },
     setThreads(state, threads) {
       state.threads.threads = threads;
+    },
+    setItem(state,{resource,item}){
+      state[resource].item = item
     },
     addItemToArray(state,{item,index,resource}){
       Vue.set(state[resource].threads, index, item)

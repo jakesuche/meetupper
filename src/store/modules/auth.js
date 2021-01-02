@@ -139,6 +139,15 @@ export default {
         userMeetupsIds.splice(index, 1)
         commit('setMeetupsToAuthUser', userMeetupsIds)
         return userMeetupsIds
+    },
+    updateUser({commit}, user){
+      return axiosInstance.patch(`/api/v1/users/${user._id}`, user)
+      .then(res=>{
+        const updatedUser = res.data
+      
+        commit('setAuthUser', updatedUser)
+        return updatedUser
+      })
     }
   },
   mutations: {

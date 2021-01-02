@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isAuthResolved" id="app">
+  <div v-if="isAuthResolved && isLocationResolved" id="app">
     <TheNavbar />
       <div class="page-wrapper">
         <router-view/>
@@ -33,6 +33,9 @@ export default {
     show(){
        return this.$vs.loading()
     },
+    isLocationResolved(){
+      return this.$store.state.meta.isLocationResolved
+    }
 
 
   },
@@ -45,7 +48,7 @@ export default {
     },
   },
   created(){
-    // this.$store.dispatch('auth/getAuthUser')
+     this.$store.dispatch('meta/fetchMetaData')
   }
 }
 </script>

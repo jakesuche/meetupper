@@ -50,7 +50,7 @@
         <div v-if="user" class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link"> Account </a>
           <div class="navbar-dropdown">
-            <router-link  to="/profile" href="#" class="navbar-item"> Profile </router-link>
+            <router-link  to="/me" href="#" class="navbar-item"> Profile </router-link>
             <hr class="navbar-divider" />
             <a @click.prevent="logout()" class="navbar-item"> Logout </a>
 

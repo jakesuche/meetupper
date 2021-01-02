@@ -28,6 +28,12 @@ const router = new Router({
       component: pageMeetupFind,
     },
     {
+      path:"/me",
+      name:"pageProfile",
+      component:pageProfile,
+      meta:{onlyAuthUser:true}
+    },
+    {
       path: "/meetup/:id/",
       name: "pageMeetupDetail",
       component: PageMeetup,
@@ -72,12 +78,6 @@ const router = new Router({
       component: pageRegister,
       meta:{onlyGuestUser:true}
     },
-    {
-      path:"/profile",
-      name:"pageProfile",
-      component:pageProfile
-    },
-  
   
     {
       path: "*",

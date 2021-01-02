@@ -10,7 +10,9 @@ export default {
   },
   getters: {},
   actions: {
-    fetchMeetups(context) {
+    fetchMeetups(context, options ={}) {
+      
+
       
      return  axios.get("/api/v1/meetups").then((res) => {
         const meetups = res.data;
@@ -29,9 +31,10 @@ export default {
       });
     },
 
-    //  make a call tothe api to create our meetup
+    //  make a call to the api to create our meetup
     createMeetup({rootState},meetupToCreate){
       console.log(meetupToCreate)
+      // added extra data which is meetup creator and processed location
       meetupToCreate.meetupCreator = rootState.auth.user
       meetupToCreate.processedLocation = meetupToCreate.location.toLowerCase().replace(/[\s,]+/g,'').trim()
       return axiosInstance.post('/api/v1/meetups', meetupToCreate)

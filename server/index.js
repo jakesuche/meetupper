@@ -106,6 +106,7 @@ const meetupsRoutes = require('./routes/meetups'),
       threadsRoutes = require('./routes/threads'),
       postsRoutes = require('./routes/posts'),
       categoriesRoutes = require('./routes/categories');
+ const  apiRoute = require('./routes/api');
 
 mongoose.connect(config.DB_URI, { useNewUrlParser: true,useUnifiedTopology:true })
   .then(() => console.log('DB Connected!'))
@@ -140,11 +141,13 @@ app.use(function(req,res,next){
   console.log(req.headers.Authorization)
   next()
 })
+app.use('/api/v1',apiRoute)
 app.use('/api/v1/meetups', meetupsRoutes);
 app.use('/api/v1/users', usersRoutes);
 app.use('/api/v1/posts', postsRoutes);
 app.use('/api/v1/threads', threadsRoutes);
 app.use('/api/v1/categories', categoriesRoutes);
+
 
  ////if (process.env.NODE_ENV === 'production') {
   const appPath = path.join(__dirname, '..', 'dist');

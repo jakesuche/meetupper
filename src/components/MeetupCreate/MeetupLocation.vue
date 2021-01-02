@@ -2,9 +2,11 @@
   <div>
     <h1 class="title m-b-sm">What's your new Meetup location?</h1>
     <div class="m-b-lg">
-      <span class="subtitle">New York, US</span>
-      <a>(change location)</a>
-      <input
+      <span v-if="ipLocation && !wantChangeLocation" class="subtitle"> {{ipLocation}}</span>
+      &nbsp;
+      <a v-if="ipLocation && !wantChangeLocation" @click="toggleLocation">(change location)</a>
+      <a v-if="ipLocation && wantChangeLocation" @click="toggleLocation">(Set Default location)</a>
+      <input v-if="!ipLocation || wantChangeLocation"
         @input="emitFormData"
         v-model="form.location"
         type="text"
@@ -24,6 +26,7 @@ import { required } from "vuelidate/lib/validators";
 export default {
   data() {
     return {
+      wantChangeLocation:false,
       form: {
         location: null,
       },
@@ -34,10 +37,29 @@ export default {
       location: required,
     },
   },
+  computed:{
+    ipLocation(){
+      return this.$store.getters['meta/location']
+    }
+  },
+  created(){
+    if(this.ipLocation){
+      this.form.location = this.ipLocation;
+      this.emitFormData()
+    }
+   
+  },
   methods: {
     emitFormData() {
       this.$emit("stepUpdated", this.form);
     },
+    toggleLocation(){
+      if(this.ipLocation){
+        this.form.location = this.ipLocation;
+      this.emitFormData()
+      }
+      this.wantChangeLocation = !this.wantChangeLocation
+    }
   },
 };
 </script>

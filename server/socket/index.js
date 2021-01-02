@@ -15,7 +15,7 @@ module.exports = function(io){
 
         socket.on('meetup/postSaved', function(post){
             console.log('emmting to meetup', `meetup-${post.meetup}`)
-            console.log(post)
+           
             socket.to(`meetup-${post.meetup}`).emit('meetup/postPublished', post)
         })
       })
