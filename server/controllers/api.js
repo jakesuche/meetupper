@@ -10,7 +10,7 @@ exports.getMeta = function(req, res) {
        
         return res.json(geo);
     } else {
-      return res.sendStatus(422).send({errors: 'Cannot get location from IP'})
+      return res.send({errors: 'Cannot get location from IP'})
     }
   })
 }

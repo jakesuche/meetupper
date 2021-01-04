@@ -18,18 +18,17 @@ export default {
       return !!state.user;
     },
     isMeetupOwner: (state) => (meetupCreatorId) => {
-     
+      
       if(!state.user){
         return false
       }
       else{
+       
         return state.user._id === meetupCreatorId;
       }
       // if (!state.user) return false;
       // return state.user._id === meetupCreatorId;
-      // console.log(state.user)
-      // console.log(meetupCreatorId + ' hello hshsh')
-      // console.log(state.user._id)
+      
       
     },
     isMember: (state) => (meetupId) => {
@@ -113,7 +112,7 @@ export default {
           context.commit("setAuthState", true);
           
           
-          return user;
+          return context.state.user;
         })
         .catch((err) => {
           

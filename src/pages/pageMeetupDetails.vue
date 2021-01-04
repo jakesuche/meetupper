@@ -22,7 +22,8 @@
               <div class="content">
                 <p>
                   <!-- OPTIONAL: meetupCreator name -->
-                  Created by <strong>{{ meetupCreator.name }}</strong>
+                  <!-- this will return 'Meetup created by if the  the created id matches the user id and return just the name if it doesnt match ' -->
+                  Created by <strong>{{ (meetupCreator._id ==  (authUser ? authUser._id : ''))? ` me (${meetupCreator.name})` : meetupCreator.name  }}</strong>
                 </p>
               </div>
             </div>
@@ -132,7 +133,7 @@
             </div>
             <!-- Thread List START -->
              <ThreadList :threads="orderedThreads"  :isAuthenticated="isAuthenticated" :canMakepost="canMakepost"/>
-              
+              <button v-if="!isAllThreadsLoaded" @click="fetchThreadsHandler" class="button is-primary">Load More Thread</button>
             <!-- Thread List END -->
           </div>
         </div>
@@ -153,25 +154,35 @@ export default {
   data() {
     return {
       text: null,
+      threadPageNum:1,
+      threadPageSize:5,
+      
     };
   },
   components: {
     ThreadCreadModal,
     ThreadList
   },
+  
 
   created() {
+
+    
+    
+    
     const meetupId = this.$route.params.id;
     // console.log(this)
     // this.$store.dispatch('fetchMeetupBy', meetupId)
     // this.$store.dispatch('fetchThreads', meetupId)
     this.fetchMeetupBy(meetupId);
-    this.fetchThreads(meetupId);
+    this.fetchThreadsHandler({init:true})
+    // this.fetchThreads(meetupId);
     if(this.isAuthenticated){
       this.$socket.emit('meetup/subscribe', meetupId)
       
       this.$socket.on('meetup/postPublished',(post) => this.addPostToThread({post, threadId:post.thread}))
     }
+    
 
     // if(this.isAuthenticated){
     //   this.$socket.emit('meetup/subscribe', meetupId)
@@ -192,7 +203,9 @@ export default {
     meetupCreator: function () {
       return this.meetup.meetupCreator || {};
     },
-
+    isAllThreadsLoaded(){
+      return this.$store.state.threads.isAllThreadasLoaded
+    },
     // meetup(){
     //     return this.$store.state.meetup
     // },
@@ -207,6 +220,7 @@ export default {
     isAuthenticated() {
       return this.$store.getters["auth/isAuthenticated"];
     },
+    
     // sanitaize meetup error
     meetupCreatorId() {
       let creatorId = this.meetup.meetupCreator
@@ -224,7 +238,7 @@ export default {
       return !this.isMeetupOwner && this.isAuthenticated && !this.isMember;
     },
     canMakepost() {
-      return this.isAuthenticated && (this.isMember || this.meetupOwner);
+      return this.isAuthenticated && (this.isMember || this.isMeetupOwner);
     },
 
     orderedThreads() {
@@ -243,6 +257,20 @@ export default {
   methods: {
     ...mapActions("meetups", ["fetchMeetupBy"]),
     ...mapActions("threads", ["fetchThreads", "postThread", 'addPostToThread']),
+
+    fetchThreadsHandler(init){
+       const meetupId = this.$route.params.id;
+      const filter = {
+        pageNum:this.threadPageNum,
+        pageSize:this.threadPageSize
+      }
+    
+      this.fetchThreads({meetupId, filter,init})
+      .then(()=>{
+        this.threadPageNum++
+      })
+    },
+
     joinMeetUp() {
       this.$store
         .dispatch("meetups/joinMeetUp", this.meetup._id)

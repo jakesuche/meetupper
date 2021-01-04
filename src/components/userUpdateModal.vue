@@ -1,12 +1,12 @@
 <template>
   <div>
-    <button @click="isOpen = !isOpen" class="button is-primary is-outlined m-t-sm">Update Info</button>
+    <button v-sound-click @click="isOpen = !isOpen" id="button" class="button is-primary is-outlined m-t-sm">Update Info</button>
     <div :class="['modal', {'is-active' :isOpen}]">
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
           <p class="modal-card-title">User Profile</p>
-          <button @click="isOpen=false" class="delete" aria-label="close"></button>
+          <button  @click="isOpen=false" class="delete" aria-label="close"></button>
         </header>
         <section class="modal-card-body">
           <form>
@@ -41,13 +41,17 @@
 </template>
 
 <script>
+import soundClick from "@/directives/soundClick"
+
 export default {
+  directives:{ soundClick },
   data(){
     return{
       isOpen:false,
       user:{...this.authUser}
     }
   },
+ 
   props:{
     authUser:{
       require:true,

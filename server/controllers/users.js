@@ -263,6 +263,7 @@ exports.getUserActivity = function (req, res) {
       })
 }
 
+// this will exports a function
 exports.updateUser = (req, res) => {
   const userId = req.params.id ;
   const userData = req.body;

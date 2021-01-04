@@ -9,6 +9,7 @@
               <div class="level-item">
                 <input
                   v-model="searchedLocation"
+                  @keyup.enter="fetchMeetupsFind"
                   type="text"
                   class="input"
                   placeholder="New York"
@@ -16,6 +17,13 @@
               </div>
               <div class="level-item">
                 <span>Meetups in {{ searchedLocation }}</span>
+              </div>
+              <div class="leve-item" v-if="category">
+                <button @click="cancelCategory()" class="button is-danger">
+                  {{category}} X
+
+                </button>
+
               </div>
             </div>
             <div class="level-right">
@@ -30,7 +38,7 @@
     </div>
     <div class="container">
       <section class="section page-find">
-        <div class="columns cover is-multiline">
+        <div v-if="meetups && meetups.length > 0" class="columns cover is-multiline">
           <div
             v-for="meetup of meetups"
             :key="meetup._id"
@@ -70,7 +78,7 @@
             </router-link>
           </div>
         </div>
-        <div>
+        <div v-else>
           <span class="tag is-warning is-large"
             >No meetups found :( You might try to change search criteria
             (:</span
@@ -85,6 +93,13 @@
 import { mapActions, mapState } from "vuex";
 
 export default {
+  props:{
+    category:{
+      required:false,
+      type:String
+
+    }
+  },
   data() {
     return {
       searchedLocation: this.$store.getters["meta/location"],
@@ -99,8 +114,9 @@ export default {
   },
 
   created() {
+   
        this.fetchMeetupsFind()
-    
+        console.log(this.filter)
   },
   methods: {
     ...mapActions("meetups", ["fetchMeetups"]),
@@ -108,10 +124,19 @@ export default {
       if(this.searchedLocation){
         this.filter['location'] = this.searchedLocation.toLowerCase().replace(/[\s,]+/g,'').trim()
       }
-
+      if(this.category){
+        this.filter['category'] = this.category
+      }
        this.fetchMeetups({filter:this.filter});
+    },
+    cancelCategory(){
+     
+      
+      this.$router.push({name: 'PageMeetupFind'})
+      
     }
   },
+
 };
 </script>
 

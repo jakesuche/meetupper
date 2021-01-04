@@ -23,19 +23,19 @@
             </p>
           </div>
           <!-- TODO: Set Active Tab to 'meetups' and class to 'isActive' -->
-          <div @click="activeTab ='meetups'"
+          <div id="tab" @click="activeTab ='meetups'"
           :class="{isActive:activeTab ==='meetups'}"
            class="stats-tab column is-2-tablet is-4-mobile has-text-centered">
             <p class="stat-val">{{meetupsCount}}</p>
             <p class="stat-key">Meetups</p>
           </div>
           <!-- TODO: Set Active Tab to 'threads' and class to 'isActive' -->
-          <div @click="activeTab ='threads'"  :class="{isActive:activeTab ==='threads'}" class="stats-tab column is-2-tablet is-4-mobile has-text-centered">
+          <div  id="tab" @click="activeTab ='threads'"  :class="{isActive:activeTab ==='threads'}" class="stats-tab column is-2-tablet is-4-mobile has-text-centered">
             <p class="stat-val">{{threadsCount}}</p>
             <p class="stat-key">Threads</p>
           </div>
           <!-- TODO: Set Active Tab to 'posts' and class to 'isActive' -->
-          <div @click="activeTab ='posts'"  :class="{isActive:activeTab ==='posts'}" class="stats-tab column is-2-tablet is-4-mobile has-text-centered">
+          <div id="tab" @click="activeTab ='posts'"  :class="{isActive:activeTab ==='posts'}" class="stats-tab column is-2-tablet is-4-mobile has-text-centered">
             <p class="stat-val">{{postsCount}}</p>
             <p class="stat-key">Posts</p>
           </div>
@@ -129,6 +129,7 @@
 </template>
 
 <script>
+import soundTab from '@/assets/sounds/tab.wav'
 import UserUpdateModal from '@/components/userUpdateModal'
 import {mapState} from 'vuex'
 export default{
@@ -137,6 +138,17 @@ export default{
   data(){
     return{
       activeTab:'meetups'
+    }
+  },
+
+  mounted(){
+    const button = document.getElementsByClassName('stats-tab')
+    for(var i = 0, length = button.length; i < length; i++){
+      button[i].addEventListener('click', function(){
+        var audio = new Audio(soundTab)
+        audio.play()
+      })
+     
     }
   },
 

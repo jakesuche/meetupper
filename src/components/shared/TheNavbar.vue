@@ -24,7 +24,7 @@
       <div class="navbar-start">
         <router-link :to="'/'" class="navbar-item"> Home </router-link>
 
-        <router-link :to="{ name: 'PageMeetupFine' }" class="navbar-item">
+        <router-link :to="{ name: 'pageMeetupFindCategory' }" class="navbar-item">
           Find
         </router-link>
 

@@ -30,7 +30,7 @@ Vue.config.productionTip = false
 Vue.component('AppHero', AppHero)
 Vue.component('AppDropdown', AppDropdown)
 Vue.use(customPlugin)
-Vue.use(Appsocket, {connection:'http://localhost:3001'})
+Vue.use(Appsocket, {connection:'https://vuemeetup.herokuapp.com'})
 Vue.use(vuelidate)
 Vue.use(Toasted)
 Vue.use(Vuesax)

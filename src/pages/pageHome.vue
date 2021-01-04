@@ -15,7 +15,7 @@
           </router-link>
           PageFine
           <router-link
-            :to="{ name: 'PageMeetupFine' }"
+            :to="{ name: 'PageMeetupFind' }"
             class="button is-primary is-pulled-right m-r-sm"
             >All</router-link
           >

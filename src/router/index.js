@@ -12,7 +12,7 @@ import pageProfile from "@/pages/pageProfile"
 import secretPage from '@/pages/secretePage'
 import PageNotAuthenticated from '@/pages/pageNotAuthenticated'
 import pageMeetupCreate from '@/pages/pageMeetupCreate'
-
+import pageMeetupEdit  from '@/pages/PageMeetupEdit'
 Vue.use(Router);
 
 const router = new Router({
@@ -23,9 +23,15 @@ const router = new Router({
       component: PageHome,
     },
     {
-      path: "/find",
-      name: "PageMeetupFine",
+      path: '/find',
+      name: 'PageMeetupFind',
+      component: pageMeetupFind
+    },
+    {
+      path: "/find/:category",
+      name: "pageMeetupFindCategory",
       component: pageMeetupFind,
+      props:true
     },
     {
       path:"/me",
@@ -37,6 +43,13 @@ const router = new Router({
       path: "/meetup/:id/",
       name: "pageMeetupDetail",
       component: PageMeetup,
+    },
+    {
+      path: "/meetup/:meetupId/edit",
+      name: "pageMeetupEdit",
+      component: pageMeetupEdit,
+      meta:{onlyAuthUser:true},
+      props:true
     },
     {
       path: "/meetups/secret",
